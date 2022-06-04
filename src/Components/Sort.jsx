@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-let Sort = () => {
+const Sort = () => {
   const sorts = ['популярности', 'цене', 'алфавиту'];
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);

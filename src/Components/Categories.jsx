@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-let Categories = () => {
+const Categories = () => {
 
   const categories = [
     'Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'
