@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 
-const Sort = ({value, onChangeSort, sortOrder, setSortOrder}) => {
+const Sort = ({value, onChangeSort}) => {
   const [open, setOpen] = useState(false);
-  const [order, setOrder] = useState(true);
+  // const [order, setOrder] = useState(true);
 
   const sorts = [
     {name: 'популярности (убыв.)', sortProperty: 'rating'},
@@ -19,8 +19,7 @@ const Sort = ({value, onChangeSort, sortOrder, setSortOrder}) => {
   };
 
   const onOrderClick = (i) => {
-    setOrder(!order);
-    setSortOrder(order ? 'desc' : 'asc');
+    console.log('перевернуть иконку')
   };
 
   return (
