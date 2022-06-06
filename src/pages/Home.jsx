@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
-import {setCategoryId, setSort} from "../redux/slices/filterSlice";
 import {SearchContext} from "../App";
 import Categories from "../Components/Categories";
 import Sort from "../Components/Sort";
@@ -16,15 +15,14 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const categoryId = useSelector((state) => state.filter.categoryId);
-  const sort = useSelector(state => state.filter.sort);
-  const dispatch = useDispatch();
+  const {categoryId, currentSort} = useSelector((state) => state.filter);
+  const sort = currentSort.sortProperty;
 
   useEffect(() => {
     setIsLoading(true);
 
-    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-    const sortBy = sort.sortProperty.replace('-', '');
+    const order = sort.includes('-') ? 'asc' : 'desc';
+    const sortBy = sort.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}&` : ``;
     const searchBy = searchValue ? `search=${searchValue}&` : ``;
     fetch(`https://629add21cf163ceb8d1008f7.mockapi.io/items?page=${currentPage}&limit=4&${category}${searchBy}sortBy=${sortBy}&order=${order}`)
@@ -44,10 +42,8 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId}
-                    onChangeCategory={(i) => dispatch(setCategoryId(i))}/>
-        <Sort value={sort}
-              onChangeSort={(i) => dispatch(setSort(i))}/>
+        <Categories/>
+        <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

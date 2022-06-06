@@ -2,10 +2,18 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   categoryId : 0,
-  sort: {
+  currentSort: {
     name: 'популярности(убыв.)',
     sortProperty: 'rating'
-  }
+  },
+  sorts: [
+    {name: 'популярности (убыв.)', sortProperty: 'rating'},
+    {name: 'популярности (возр.)', sortProperty: '-rating'},
+    {name: 'цене (убыв.)', sortProperty: 'price'},
+    {name: 'цене (возр.)', sortProperty: '-price'},
+    {name: 'алфавиту (убыв.)', sortProperty: 'title'},
+    {name: 'алфавиту (возр.)', sortProperty: '-title'}
+  ]
 }
 
 export const filterSlice = createSlice({
@@ -15,8 +23,9 @@ export const filterSlice = createSlice({
     setCategoryId (state, {payload}) {
       state.categoryId = payload;
     },
-    setSort (state, {payload}) {
-      state.sort = {...state.sort, ...payload}
+    setSort (state, action) {
+      state.currentSort = action.payload
+      // state.currentSort = {...state.currentSort, ...payload}
     }
   },
 });
