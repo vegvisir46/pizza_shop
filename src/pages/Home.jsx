@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
+import axios from "axios";
 
 import {SearchContext} from "../App";
 import Categories from "../Components/Categories";
@@ -25,10 +26,9 @@ const Home = () => {
     const sortBy = sort.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}&` : ``;
     const searchBy = searchValue ? `search=${searchValue}&` : ``;
-    fetch(`https://629add21cf163ceb8d1008f7.mockapi.io/items?page=${currentPage}&limit=4&${category}${searchBy}sortBy=${sortBy}&order=${order}`)
-      .then(res => res.json())
-      .then(data => {
-        setPizzas(data);
+    axios.get(`https://629add21cf163ceb8d1008f7.mockapi.io/items?page=${currentPage}&limit=4&${category}${searchBy}sortBy=${sortBy}&order=${order}`)
+      .then(res => {
+        setPizzas(res.data);
         setIsLoading(false);
       });
 
