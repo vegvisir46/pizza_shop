@@ -12,12 +12,13 @@ const Search = () => {
 
   const onClickClear = () => {
     setSearchValue('');
+    setLocalValue('');
     inputRef.current.focus();
   };
 
   const updateSearchValue = useCallback(debounce((str) => {
     setSearchValue(str);
-  }, 1000), []);
+  }, 800), []);
 
   const onChangeInput = (e) => {
     setLocalValue(e.target.value);
