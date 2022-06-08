@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setSort} from "../redux/slices/filterSlice";
 
@@ -7,6 +7,7 @@ const Sort = () => {
   const sort = useSelector(state => state.filter.currentSort);
   const sorts = useSelector(state => state.filter.sorts);
   const dispatch = useDispatch();
+  const sortRef = useRef();
 
   // const sorts = [
   //   {name: 'популярности (убыв.)', sortProperty: 'rating'},
@@ -26,8 +27,14 @@ const Sort = () => {
     console.log('перевернуть иконку')
   };
 
+  useEffect(() => {
+    const handleClickOutside = event => !event.path.includes(sortRef.current) && setOpen(false);
+    document.body.addEventListener('click', handleClickOutside);
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, [])
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg onClick={() => {
           onOrderClick()
