@@ -1,20 +1,23 @@
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {addItem} from "../../redux/slices/cartSlice";
 
+const typesNames = ['тонкое', 'традиционное'];
+
 let PizzaBlock = ({id, title, price, imageUrl, sizes, types}) => {
   const dispatch = useDispatch();
+  const cartItem = useSelector(state => state.cart.items.find(obj => obj.id === id));
   const [activeSize, setActiveSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
 
-  const typesNames = ['тонкое', 'традиционное'];
+  const addedCount = cartItem && cartItem.count;
 
   const onClickAdd = () => {
     const item = {
       id, title, price, imageUrl,
       type: typesNames[activeType],
-      size: activeSize
+      size: sizes[activeSize]
     }
     dispatch(addItem(item));
   }
@@ -67,7 +70,7 @@ let PizzaBlock = ({id, title, price, imageUrl, sizes, types}) => {
               />
             </svg>
             <span>Добавить</span>
-            <i>0</i>
+            {addedCount > 0 && < i > {addedCount} </i>}
           </button>
         </div>
       </div>
