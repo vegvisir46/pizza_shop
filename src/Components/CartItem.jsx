@@ -1,9 +1,11 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
 import {addItem, minusItem, removeItem} from "../redux/slices/cartSlice";
+import calcFinalPrice from "../features/caltFinalPrice";
 
 const CartItem = ({id, title, type, size, price, count, imageUrl}) => {
   const dispatch = useDispatch();
+  let finalPrice = calcFinalPrice(size, price);
 
   const onClickPlus = () => {
     dispatch(addItem({id, type, size}));
@@ -51,7 +53,7 @@ const CartItem = ({id, title, type, size, price, count, imageUrl}) => {
         </div>
       </div>
       <div className="cart__item-price">
-        <b>{price * count} ₽</b>
+        <b>{finalPrice * count} ₽</b>
       </div>
       <div className="cart__item-remove">
         <div onClick={onClickRemove} className="button button--outline button--circle">
