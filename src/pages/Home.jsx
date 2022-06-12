@@ -4,14 +4,14 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-import {SearchContext} from "../App";
+// import {SearchContext} from "../App";
 import Categories from "../Components/Categories";
 import Sort from "../Components/Sort";
 import Skeleton from "../Components/PizzaBlock/Skeleton";
 import PizzaBlock from "../Components/PizzaBlock";
 import Pagination from "../Components/Pagination";
-import {setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {fetchPizzas} from "../redux/slices/pizzaSlice";
+import {selectFilter, selectSearchValue, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
+import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,10 +19,8 @@ const Home = () => {
   const isFilterUrl = useRef(false);
   const isMounted = useRef(false);
 
-  const {searchValue} = React.useContext(SearchContext);
-  const {items, status} = useSelector(state => state.pizza);
-
-  const {categoryId, currentSort, currentPage, sorts} = useSelector((state) => state.filter);
+  const {items, status} = useSelector(selectPizzaData);
+  const {categoryId, currentSort, currentPage, sorts, searchValue} = useSelector(selectFilter);
   const sortProperty = currentSort.sortProperty;
 
   const getPizzas = async () => {

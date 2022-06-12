@@ -1,22 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setSort} from "../redux/slices/filterSlice";
+import {selectCurrentSort, selectSorts, setSort} from "../redux/slices/filterSlice";
 
 const Sort = () => {
   const [open, setOpen] = useState(false);
-  const sort = useSelector(state => state.filter.currentSort);
-  const sorts = useSelector(state => state.filter.sorts);
+  const sort = useSelector(selectCurrentSort);
+  const sorts = useSelector(selectSorts);
   const dispatch = useDispatch();
   const sortRef = useRef();
-
-  // const sorts = [
-  //   {name: 'популярности (убыв.)', sortProperty: 'rating'},
-  //   {name: 'популярности (возр.)', sortProperty: '-rating'},
-  //   {name: 'цене (убыв.)', sortProperty: 'price'},
-  //   {name: 'цене (возр.)', sortProperty: '-price'},
-  //   {name: 'алфавиту (убыв.)', sortProperty: 'title'},
-  //   {name: 'алфавиту (возр.)', sortProperty: '-title'}
-  // ];
 
   const onSortClick = (i) => {
     dispatch(setSort(i));
