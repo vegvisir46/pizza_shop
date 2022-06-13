@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 
-// import {SearchContext} from "../App";
 import Categories from "../Components/Categories";
 import Sort from "../Components/Sort";
 import Skeleton from "../Components/PizzaBlock/Skeleton";

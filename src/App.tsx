@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import {Route, Routes} from "react-router-dom";
 
 import './scss/app.scss';
@@ -7,7 +6,8 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Cart from "./pages/Cart";
 import PizzaPage from "./pages/PizzaPage";
-import {AnimatePresence} from "framer-motion";
+
+// import {AnimatePresence} from "framer-motion";
 
 
 function App() {
