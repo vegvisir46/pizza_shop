@@ -1,25 +1,30 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentSort, selectSorts, setSort} from "../redux/slices/filterSlice";
 
-const Sort = () => {
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+const Sort: FC = () => {
   const [open, setOpen] = useState(false);
   const sort = useSelector(selectCurrentSort);
-  const sorts = useSelector(selectSorts);
+  const sorts: SortItem[] = useSelector(selectSorts);
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  const onSortClick = (i) => {
+  const onSortClick = (i: SortItem) => {
     dispatch(setSort(i));
     setOpen(false);
   };
 
-  const onOrderClick = (i) => {
+  const onOrderClick = () => {
     console.log('перевернуть иконку')
   };
 
   useEffect(() => {
-    const handleClickOutside = event => !event.path.includes(sortRef.current) && setOpen(false);
+    const handleClickOutside = (event: any) => !event.path.includes(sortRef.current) && setOpen(false);
     document.body.addEventListener('click', handleClickOutside);
     return () => document.body.removeEventListener('click', handleClickOutside);
   }, [])

@@ -1,15 +1,15 @@
-import React from "react";
+import React, {FC} from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {clearItems, selectCart} from "../redux/slices/cartSlice";
 import CartItem from "../Components/CartItem";
 import CartEmpty from "../Components/CartEmpty";
 
-const Cart = () => {
+const Cart: FC = () => {
 
   const dispatch = useDispatch();
   const {totalPrice, items} = useSelector(selectCart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const onClickClear = () => {
     window.confirm('Очистить корзину?') && dispatch(clearItems());
@@ -54,7 +54,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="content__items">
-          {items.map(item => <CartItem key={item.id + item.size + item.type} {...item}/>)}
+          {items.map((item: any) => <CartItem key={item.id + item.size + item.type} {...item}/>)}
 
         </div>
         <div className="cart__bottom">
@@ -71,7 +71,9 @@ const Cart = () => {
 
               <span>Вернуться назад</span>
             </Link>
-            <div onClick={() => {alert('Данный функционал находится в разработке :)')}} className="button pay-btn">
+            <div onClick={() => {
+              alert('Данный функционал находится в разработке :)')
+            }} className="button pay-btn">
               <span>Оплатить сейчас</span>
             </div>
           </div>

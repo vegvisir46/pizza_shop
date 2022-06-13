@@ -1,18 +1,17 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {FC, useEffect, useRef} from "react";
 import qs from 'qs';
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import Categories from "../Components/Categories";
 import Sort from "../Components/Sort";
 import Skeleton from "../Components/PizzaBlock/Skeleton";
 import PizzaBlock from "../Components/PizzaBlock";
 import Pagination from "../Components/Pagination";
-import {selectFilter, selectSearchValue, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
+import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
 import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
 
-const Home = () => {
+const Home: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isFilterUrl = useRef(false);
@@ -22,12 +21,18 @@ const Home = () => {
   const {categoryId, currentSort, currentPage, sorts, searchValue} = useSelector(selectFilter);
   const sortProperty = currentSort.sortProperty;
 
+  const onChangeCategory = (i: number) => {
+    dispatch(setCategoryId(i));
+  }
+
   const getPizzas = async () => {
     const order = sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = sortProperty.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}&` : ``;
     const searchBy = searchValue ? `search=${searchValue}&` : ``;
-    dispatch(fetchPizzas({order, sortBy, searchBy, category, currentPage}));
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({order, sortBy, searchBy, category, currentPage}));
   };
 
   //update URL if !1st render
@@ -43,7 +48,7 @@ const Home = () => {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      const sort = sorts.find(obj => obj.sortProperty === params.sortProperty);
+      const sort = sorts.find((obj: any) => obj.sortProperty === params.sortProperty);
       dispatch(setFilters({...params, sort}));
       isFilterUrl.current = true;
     }
@@ -58,13 +63,13 @@ const Home = () => {
     isFilterUrl.current = false;
   }, [categoryId, sortProperty, searchValue, currentPage]);
 
-  const pizzas = items.map((obj, i) => <PizzaBlock {...obj} key={i}/>);
+  const pizzas = items.map((obj: any, i: number) => <PizzaBlock {...obj} key={i}/>);
   const skeletons = [...new Array(4)].map((s, i) => <Skeleton key={i}/>);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories/>
+        <Categories categoryId={categoryId} onChangeCategory={onChangeCategory}/>
         <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
@@ -77,7 +82,7 @@ const Home = () => {
         </div>
       }
 
-      <Pagination onChangePage={number => dispatch(setCurrentPage(number))}
+      <Pagination onChangePage={(page: number) => dispatch(setCurrentPage(page))}
                   currentPage={currentPage}/>
     </div>
   )

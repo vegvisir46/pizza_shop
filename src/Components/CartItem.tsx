@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {useDispatch} from "react-redux";
 import {addItem, minusItem, removeItem} from "../redux/slices/cartSlice";
 import calcFinalPrice from "../features/caltFinalPrice";
 
-const CartItem = ({id, title, type, size, price, count, imageUrl}) => {
+type CartItemProps = {
+  id: string; title: string; type: string; size: number;
+  price: number; count: number; imageUrl: string;
+}
+
+const CartItem: FC<CartItemProps> = ({id, title, type, size, price, count, imageUrl}) => {
   const dispatch = useDispatch();
   let finalPrice = calcFinalPrice(size, price);
 
