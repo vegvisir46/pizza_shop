@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import qs from 'qs';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 // import {SearchContext} from "../App";
 import Categories from "../Components/Categories";
