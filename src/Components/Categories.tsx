@@ -5,10 +5,12 @@ type CategoriesProps = {
   onChangeCategory: (i: number) => void;
 }
 
+const categories = [
+  'Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'
+];
+
 const Categories: FC<CategoriesProps> = ({categoryId, onChangeCategory}) => {
-  const categories = [
-    'Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'
-  ];
+
 
   return (
     <div className="categories">
