@@ -11,7 +11,6 @@ const categories = [
 
 const Categories: FC<CategoriesProps> = ({categoryId, onChangeCategory}) => {
 
-
   return (
     <div className="categories">
       <ul>
