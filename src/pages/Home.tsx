@@ -1,24 +1,25 @@
 import React, {FC, useEffect, useRef} from "react";
 import qs from 'qs';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 import Categories from "../Components/Categories";
-import Sort from "../Components/Sort";
+import Sort, {sortList} from "../Components/Sort";
 import Skeleton from "../Components/PizzaBlock/Skeleton";
 import PizzaBlock from "../Components/PizzaBlock";
 import Pagination from "../Components/Pagination";
 import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
+import {fetchPizzas, SearchPizzaParams, selectPizzaData} from "../redux/slices/pizzaSlice";
+import {useAppDispatch} from "../redux/store";
 
 const Home: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isFilterUrl = useRef(false);
   const isMounted = useRef(false);
 
   const {items, status} = useSelector(selectPizzaData);
-  const {categoryId, currentSort, currentPage, sorts, searchValue} = useSelector(selectFilter);
+  const {categoryId, currentSort, currentPage, searchValue} = useSelector(selectFilter);
   const sortProperty = currentSort.sortProperty;
 
   const onChangeCategory = (i: number) => {
@@ -31,8 +32,7 @@ const Home: FC = () => {
     const category = categoryId > 0 ? `category=${categoryId}&` : ``;
     const searchBy = searchValue ? `search=${searchValue}&` : ``;
     dispatch(
-      // @ts-ignore
-      fetchPizzas({order, sortBy, searchBy, category, currentPage}));
+      fetchPizzas({order, sortBy, searchBy, category, currentPage: String(currentPage)}));
   };
 
   //update URL if !1st render
@@ -47,9 +47,10 @@ const Home: FC = () => {
   //check URL for filters during 1st render and save to redux
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = sorts.find((obj: any) => obj.sortProperty === params.sortProperty);
-      dispatch(setFilters({...params, sort}));
+      const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams;
+      const currentSort = sortList.find((obj: any) => obj.sortProperty === params.sortBy);
+      //@ts-ignore
+      dispatch(setFilters({...params, currentSort}));
       isFilterUrl.current = true;
     }
   }, []);

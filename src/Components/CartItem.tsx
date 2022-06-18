@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {useDispatch} from "react-redux";
-import {addItem, minusItem, removeItem} from "../redux/slices/cartSlice";
+import {addItem, minusItem, removeItem, TCartItem, TCartItemToChange} from "../redux/slices/cartSlice";
 import calcFinalPrice from "../features/caltFinalPrice";
 
 type CartItemProps = {
@@ -13,15 +13,19 @@ const CartItem: FC<CartItemProps> = ({id, title, type, size, price, count, image
   let finalPrice = calcFinalPrice(size, price);
 
   const onClickPlus = () => {
-    dispatch(addItem({id, type, size}));
+    // @ts-ignore
+    const item: TCartItem = {id, type, size}; // NEED to FIX
+    dispatch(addItem(item));
   };
 
   const onClickMinus = () => {
-    dispatch(minusItem({id, type, size}));
+    const item: TCartItemToChange = {id, type, size};
+    dispatch(minusItem(item));
   };
 
   const onClickRemove = () => {
-    window.confirm('Удалить пиццу?') && dispatch(removeItem({id, type, size}));
+    const item: TCartItemToChange = {id, type, size};
+    window.confirm('Удалить пиццу?') && dispatch(removeItem(item));
   }
 
   return (

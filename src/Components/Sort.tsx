@@ -1,20 +1,30 @@
 import React, {FC, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {selectCurrentSort, selectSorts, setSort} from "../redux/slices/filterSlice";
+import {selectCurrentSort, setSort, SortPropertyEnum} from "../redux/slices/filterSlice";
 
 type SortItem = {
   name: string;
-  sortProperty: string;
+  sortProperty: SortPropertyEnum;
 };
 
 type PopupClick = MouseEvent & {
   path: Node[];
 };
 
+export const sortList: SortItem [] = [
+  {name: 'популярности (убыв.)', sortProperty: SortPropertyEnum.RATING_DESC},
+  {name: 'популярности (возр.)', sortProperty: SortPropertyEnum.RATING_ASC},
+  {name: 'цене (убыв.)', sortProperty: SortPropertyEnum.PRICE_DESC},
+  {name: 'цене (возр.)', sortProperty: SortPropertyEnum.PRICE_ASC},
+  {name: 'алфавиту (убыв.)', sortProperty: SortPropertyEnum.TITLE_DESC},
+  {name: 'алфавиту (возр.)', sortProperty: SortPropertyEnum.TITLE_ASC}
+]
+
 const Sort: FC = () => {
   const [open, setOpen] = useState(false);
   const sort = useSelector(selectCurrentSort);
-  const sorts: SortItem[] = useSelector(selectSorts);
+  // const sorts: SortItem[] = useSelector(selectSorts);
+
   const dispatch = useDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +64,7 @@ const Sort: FC = () => {
       </div>
       {open && <div className="sort__popup">
         <ul>
-          {sorts.map((obj, i) => {
+          {sortList.map((obj, i) => {
             return <li key={i} onClick={() => onSortClick(obj)}
                        className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>{obj.name}</li>
           })}
