@@ -21,7 +21,7 @@ const Search: FC = () => {
     dispatch(setSearchValue(str));
   }, 800), []);
 
-  const onChangeInput = (e: any) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalValue(e.target.value);
     updateSearchValue(e.target.value);
   };
