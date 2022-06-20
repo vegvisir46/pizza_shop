@@ -14,7 +14,7 @@ const CartItem: FC<CartItemProps> = ({id, title, type, size, price, count, image
 
   const onClickPlus = () => {
     // @ts-ignore
-    const item: TCartItem = {id, type, size}; // NEED to FIX
+    const item: TCartItem = {id, type, size}; //  NEED to FIX
     dispatch(addItem(item));
   };
 
