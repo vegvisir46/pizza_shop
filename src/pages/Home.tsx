@@ -11,6 +11,7 @@ import Pagination from "../Components/Pagination";
 import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
 import {fetchPizzas, SearchPizzaParams, selectPizzaData} from "../redux/slices/pizzaSlice";
 import {useAppDispatch} from "../redux/store";
+import SortPopup from "../Components/Sort";
 
 const Home: FC = () => {
   const dispatch = useAppDispatch();
@@ -22,9 +23,9 @@ const Home: FC = () => {
   const {categoryId, currentSort, currentPage, searchValue} = useSelector(selectFilter);
   const sortProperty = currentSort.sortProperty;
 
-  const onChangeCategory = (i: number) => {
+  const onChangeCategory = React.useCallback((i: number) => {
     dispatch(setCategoryId(i));
-  }
+  }, [])
 
   const getPizzas = async () => {
     const order = sortProperty.includes('-') ? 'asc' : 'desc';
@@ -71,7 +72,7 @@ const Home: FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories categoryId={categoryId} onChangeCategory={onChangeCategory}/>
-        <Sort/>
+        <SortPopup value={currentSort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {

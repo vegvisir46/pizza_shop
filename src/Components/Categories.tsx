@@ -9,7 +9,7 @@ const categories = [
   'Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'
 ];
 
-const Categories: FC<CategoriesProps> = ({categoryId, onChangeCategory}) => {
+const Categories: FC<CategoriesProps> = React.memo(({categoryId, onChangeCategory}) => {
 
   return (
     <div className="categories">
@@ -25,6 +25,6 @@ const Categories: FC<CategoriesProps> = ({categoryId, onChangeCategory}) => {
       </ul>
     </div>
   )
-}
+})
 
 export default Categories;
