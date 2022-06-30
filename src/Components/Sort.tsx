@@ -25,6 +25,7 @@ export const sortList: SortItem [] = [
 ]
 
 const SortPopup: FC<TSortPopup> = React.memo(({value}) => {
+
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
