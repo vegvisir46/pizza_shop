@@ -12,7 +12,7 @@ type PopupClick = MouseEvent & {
 };
 
 type TSortPopup = {
-  value: TSort
+  value: TSort;
 }
 
 export const sortList: SortItem [] = [
