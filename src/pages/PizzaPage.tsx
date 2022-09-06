@@ -1,11 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 const PizzaPage: FC = () => {
   const {id} = useParams();
   const [pizzaData, setPizzaData] = useState<{
-    imageUrl: string, title: string, price: number
+    imageUrl: string, title: string, price: number, description: string
   }>();
   const navigate = useNavigate();
 
@@ -32,11 +33,13 @@ const PizzaPage: FC = () => {
     <div className="container">
       <img src={pizzaData.imageUrl} alt=""/>
       <h2>{pizzaData.title}</h2>
-      <p>Добавить описание пиццы на бэк Добавить описание пиццы на бэк
-        Добавить описание пиццы на бэк Добавить описание пиццы на бэк
-        Добавить описание пиццы на бэк Добавить описание пиццы на бэк
-        Добавить описание пиццы на бэк Добавить описание пиццы на бэк </p>
+      <p>{pizzaData.description}</p>
       <h4>{pizzaData.price} ₽</h4>
+      <Link to="/">
+        <button className="button button--outline button--add">
+          <span>Назад</span>
+        </button>
+      </Link>
     </div>
   )
 }
